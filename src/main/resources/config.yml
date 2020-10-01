@@ -1,0 +1,10 @@
+#prefix
+prefix: "&6&lUlriam &7&l>>&r"
+
+#Format par defaut
+DEFAULT:
+  prefixChat: ""
+  color: WHITE
+  radius: 15
+  particles: null
+  particleVisibility: 30

@@ -1,0 +1,41 @@
+prefix:
+  HRP:
+    prefix: "[Global HRP]&r"
+    prefixChat: "("
+    before: true
+    color: GRAY
+    radius: -1
+    particles: VILLAGER_HAPPY
+    particleVisibility: 50
+  HURLEMENT:
+    prefix: "Hurle&r"
+    prefixChat: "!"
+    before: false
+    color: RED
+    radius: 50
+    particles: DRIPPING_HONEY
+    particleVisibility: 50
+  CHUCHOTEMENT:
+    prefix: "&oChuchote&r"
+    prefixChat: "*"
+    before: false
+    color: GREEN
+    radius: 2
+    particles: CLOUD
+    particleVisibility: 8
+  ACTION:
+    prefix: "&l&oAction&r"
+    prefixChat: "-"
+    before: false
+    color: GOLD
+    radius: 15
+    particles: VILLAGER_ANGRY
+    particleVisibility: 30
+  ACTIONLOIN:
+    prefix: "&l&oAction Lointaine&r"
+    prefixChat: "_"
+    before: false
+    color: LIGHT_PURPLE
+    radius: 100
+    particles: CAMPFIRE_SIGNAL_SMOKE
+    particleVisibility: 100

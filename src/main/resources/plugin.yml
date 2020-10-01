@@ -1,0 +1,9 @@
+name: Chat-Ulriam
+main: fr.hillwalk.chat.Chat
+version: 1.0
+api-version: 1.16
+
+commands:
+  chat:
+    description: Commande principale
+    aliases: [ch]

@@ -1,8 +1,11 @@
 package fr.hillwalk.chat.commands;
 
 import fr.hillwalk.chat.Chat;
+import fr.hillwalk.chat.configs.ChatPrefix;
 import fr.hillwalk.chat.configs.Joueurs;
+import fr.hillwalk.chat.utils.UtilsRef;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,6 +32,8 @@ public class Commandes implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Chat instance = JavaPlugin.getPlugin(Chat.class);
         Joueurs config = new Joueurs();
+        ChatPrefix prefix = new ChatPrefix();
+        UtilsRef util = new UtilsRef();
 
         Player player = (Player) sender;
 
@@ -45,41 +50,58 @@ public class Commandes implements CommandExecutor {
 
                 String name = args[1];
 
-                config.setup(player);
+                if(name == null){
 
-                for(Entity entity : Bukkit.getServer().getOnlinePlayers()){
-
-
-                    if(entity.getLocation().distance(player.getEyeLocation()) <= 5 && !entity.getName().equalsIgnoreCase(player.getName())){
-
-
-                        if(instance.getConfig().getConfigurationSection("Joueurs") == null){
-
-                            config.getPlayer(player).set("Joueurs."  + entity.getName(), name);
-                            config.save(player);
-                            config.reload(player);
-                            return true;
-                        }
-
-                        //On va mettre en place les configurations
-                        for(String str : instance.getConfig().getConfigurationSection("Joueurs").getKeys(false)){
-
-                            if(instance.getConfig().getString("Joueurs." + str) != entity.getName()){
-
-                                config.getPlayer(player).set("Joueurs."  + entity.getName(), name);
-                                config.save(player);
-                                config.reload(player);
-                                return true;
-
-                            }
-
-
-                        }
-
-                    }
+                    player.sendMessage(instance.prefix + "Vous devenez entrer un nom.\n/ch name <nom>");
+                    return true;
                 }
 
+                config.setup(player);
 
+                UtilsRef.getEntityInLineOfSightBlockIterator(player, 4, name);
+
+                return true;
+            }
+
+
+            if(!player.isOp() || !player.hasPermission("chat.admin")){
+
+                player.sendMessage(instance.prefix + "Vous n'avez pas la permission pour faire ça.");
+                return true;
+            }
+
+            if(args[0].equalsIgnoreCase("real")){
+
+                UtilsRef.commandAdmin(player, 50);
+
+                return true;
+            }
+
+
+            if(args[0].equalsIgnoreCase("reload")){
+
+
+                instance.getLogger().info("Initialisation des données ...");
+                instance.saveDefaultConfig();
+                instance.reloadConfig();
+
+                ChatPrefix.save();
+                ChatPrefix.reload();
+
+
+                for (Player target : Bukkit.getServer().getOnlinePlayers()){
+
+                    util.hideNametag(target);
+                    config.save(target);
+                    config.reload(target);
+
+
+                }
+
+                instance.prefix = ChatColor.translateAlternateColorCodes('&', instance.getConfig().getString("prefix") + " ");
+                instance.getLogger().info("Tout est CHECK !");
+
+                player.sendMessage(instance.prefix + "Le reload est un succès !");
 
                 return true;
             }
@@ -87,4 +109,5 @@ public class Commandes implements CommandExecutor {
 
         return false;
     }
+
 }

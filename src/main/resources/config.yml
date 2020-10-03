@@ -8,3 +8,9 @@ DEFAULT:
   radius: 15
   particles: null
   particleVisibility: 30
+
+
+Messages:
+  welcome:  "Bienvenue sur les terres d'Ulriam !"
+  join: "Un survivant vient de se réveiller."
+  leave: "Un survivant vient de s'endormir."

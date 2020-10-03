@@ -3,6 +3,7 @@ package fr.hillwalk.chat.listener;
 import fr.hillwalk.chat.Chat;
 import fr.hillwalk.chat.configs.ChatPrefix;
 import fr.hillwalk.chat.configs.Joueurs;
+import fr.hillwalk.chat.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ public class ChatSync implements Listener {
 
     Chat instance = JavaPlugin.getPlugin(Chat.class);
     Joueurs joueurs = new Joueurs();
+    UtilsRef util = new UtilsRef();
 
     @EventHandler
     public void chatSync(AsyncPlayerChatEvent e){
@@ -30,13 +32,34 @@ public class ChatSync implements Listener {
 
         e.setCancelled(true);
 
+        /*
+
+                                                                                      __ _             _           _
+                                                 /\                                  / _(_)           | |         | |
+                                                /  \__   _____  ___   _ __  _ __ ___| |_ ___  __   ___| |__   __ _| |_
+                                               / /\ \ \ / / _ \/ __| | '_ \| '__/ _ \  _| \ \/ /  / __| '_ \ / _` | __|
+                                              / ____ \ V /  __/ (__  | |_) | | |  __/ | | |>  <  | (__| | | | (_| | |_
+                                             /_/    \_\_/ \___|\___| | .__/|_|  \___|_| |_/_/\_\  \___|_| |_|\__,_|\__|
+                                                                     | |
+                                                                     |_|
+
+         */
+
         if(e.getMessage().startsWith(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"))){
-            System.out.println("Before : 1");
 
 
             if(ChatPrefix.getChat().getBoolean("prefix." + str + ".before")){
-                System.out.println("Before : 2");
 
+                /*
+
+                                                                   _____        __  __ _
+                                                                  / ____|      / _|/ _(_)
+                                                                 | (___  _   _| |_| |_ ___  __
+                                                                  \___ \| | | |  _|  _| \ \/ /
+                                                                  ____) | |_| | | | | | |>  <
+                                                                 |_____/ \__,_|_| |_| |_/_/\_\
+
+                 */
 
                 String word = ChatPrefix.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
                 String rawMessage = word.replace(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"), "");
@@ -46,10 +69,8 @@ public class ChatSync implements Listener {
                 e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), 5);
 
 
-
                 if(distance != -1){
 
-                    System.out.println("Before : 3");
                     for (Player target : Bukkit.getServer().getOnlinePlayers()) {
 
                         if(target.getLocation().distanceSquared(e.getPlayer().getLocation()) <= distance){
@@ -57,25 +78,36 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                //Pour les logs:
+                                instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
 
                             } else {
 
-
+                                //Si le joueur qui parle a déjà mit un nom sur la tête de se joueur.
                                 if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
 
-                                    target.sendMessage(nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
-
-
+                                    target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
 
                                 } else {
 
-                                    target.sendMessage(nameBeforeTrue(target, str, "???", rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
+
+                                        //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                        target.sendMessage(util.nameBeforeFalse(target, str, "???", e.getPlayer().getName(), rawMessage));
+
+                                    } else {
+                                        //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                        target.sendMessage(util.nameBeforeFalse(target, str, "???", rawMessage));
+
+                                    }
                                 }
                             }
 
                         } else {
 
+                            //On enlève de la liste.
                             e.getRecipients().remove(target);
 
 
@@ -92,20 +124,43 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                //Pour les logs:
+                                instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
 
                             } else {
 
 
                                 if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
 
-                                    target.sendMessage(nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
+
+                                        //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                        target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), e.getPlayer().getName(), rawMessage));
+
+                                    } else {
+                                        //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                        target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+
+
+                                    }
 
 
 
                                 } else {
 
-                                    target.sendMessage(nameBeforeTrue(target, str, "???", rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
+
+                                        //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                        target.sendMessage(util.nameBeforeTrue(target, str, "???", e.getPlayer().getName(), rawMessage));
+
+                                    } else {
+                                        //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                        target.sendMessage(util.nameBeforeTrue(target, str, "???", rawMessage));
+
+                                    }
                                 }
                             }
 
@@ -115,6 +170,19 @@ public class ChatSync implements Listener {
 
             } else {
 
+                /*
+
+                                                                  _____           __ _
+                                                                 |  __ \         / _(_)
+                                                                 | |__) | __ ___| |_ ___  __
+                                                                 |  ___/ '__/ _ \  _| \ \/ /
+                                                                 | |   | | |  __/ | | |>  <
+                                                                 |_|   |_|  \___|_| |_/_/\_\
+
+
+                 */
+
+
                 String word = ChatPrefix.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
                 String rawMessage = word.replace(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"), "");
                 int distance = ChatPrefix.getChat().getInt("prefix." + str + ".radius");
@@ -133,25 +201,50 @@ public class ChatSync implements Listener {
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
 
-                                target.sendMessage(nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                //Pour les logs:
+                                instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
 
                             } else {
 
                                 if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
 
 
-                                    target.sendMessage(nameBeforeFalse(e.getPlayer(), str,joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
 
+                                        //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                        target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str,joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), e.getPlayer().getName(), rawMessage));
+
+
+
+                                    } else {
+                                        //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                        target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str,joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+
+                                    }
 
 
                                 } else {
 
-                                    target.sendMessage(nameBeforeFalse(target, str, "???", rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
+
+                                        //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                        target.sendMessage(util.nameBeforeFalse(target, str, "???", e.getPlayer().getName(), rawMessage));
+
+                                    } else {
+                                        //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                        target.sendMessage(util.nameBeforeFalse(target, str, "???", rawMessage));
+
+                                    }
+
                                 }
                             }
 
                         } else {
 
+                            //On enlève la personne de la liste.
                             e.getRecipients().remove(target);
 
 
@@ -167,20 +260,31 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                //Pour les logs:
+                                instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
 
                             } else {
 
 
                                 if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
 
-                                    target.sendMessage(nameBeforeFalse(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                    if(target.isOp() || target.hasPermission("chat.name")){
+
+                                        target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), e.getPlayer().getName(), rawMessage));
+
+
+                                    } else {
+                                        target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+
+                                    }
 
 
 
                                 } else {
 
-                                    target.sendMessage(nameBeforeFalse(target, str, "???", rawMessage));
+                                    target.sendMessage(util.nameBeforeFalse(target, str, "???", rawMessage));
                                 }
                             }
 
@@ -200,6 +304,19 @@ public class ChatSync implements Listener {
     }
 
 
+                /*
+
+                                                          _   _       _                  _
+                                                         | \ | |     | |                | |
+                                                         |  \| | __ _| |_ _   _ _ __ ___| |
+                                                         | . ` |/ _` | __| | | | '__/ _ \ |
+                                                         | |\  | (_| | |_| |_| | | |  __/ |
+                                                         |_| \_|\__,_|\__|\__,_|_|  \___|_|
+
+
+                 */
+
+
                 //Quand la personne parle normalement
                 int distance = instance.getConfig().getInt("DEFAULT.radius");
                 String rawMessage = instance.getConfig().getString("DEFAULT.prefixChat") + e.getMessage();
@@ -212,33 +329,50 @@ public class ChatSync implements Listener {
 
                                 if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                    target.sendMessage(nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                    target.sendMessage(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
 
                                 } else {
-
-
 
                                    if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
 
 
-                                               target.sendMessage(nameDefaut(e.getPlayer(), joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                       //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                       if(target.isOp() || target.hasPermission("chat.name")){
+
+                                           target.sendMessage(util.nameDefaut(e.getPlayer(), joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), e.getPlayer().getName(), rawMessage));
+
+                                       } else {
+                                           target.sendMessage(util.nameDefaut(e.getPlayer(), joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                       }
 
 
 
                                    } else {
 
-                                       target.sendMessage(nameDefaut(target, "???", rawMessage));
+                                       //Si le joueur est op ou possède la permission de voir le nom du joueur.
+                                       if(target.isOp() || target.hasPermission("chat.name")){
+
+                                           //On met le pseudo à côté du faux nom pour l'identifier plus facilement.
+                                           target.sendMessage(util.nameDefaut(target, "???", e.getPlayer().getName(), rawMessage));
+
+                                       } else {
+                                           //Si le joueur n'est pas op alors il voit le tchat normalement.
+                                           target.sendMessage(util.nameDefaut(target, "???", rawMessage));
+
+                                       }
+
+
                                    }
                                 }
 
                             } else {
 
+                                //On enlève la personne de la liste.
                                 e.getRecipients().remove(target);
 
-
                             }
-
-
 
                 }
 
@@ -248,55 +382,6 @@ public class ChatSync implements Listener {
     }
 
 
-
-
-
-    public String nameDefaut(Player player, String name, String message){
-
-        HashMap<UUID, String> names = new HashMap<UUID, String>();
-        for(Player target : Bukkit.getServer().getOnlinePlayers()){
-
-            String format = ChatColor.valueOf(instance.getConfig().getString("DEFAULT.color")) + ChatColor.translateAlternateColorCodes('&', name + " : " + message);
-            names.put(target.getUniqueId(), format);
-
-
-        }
-
-
-        return names.get(player.getUniqueId());
-    }
-
-    public String nameBeforeTrue(Player player, String params, String name, String message){
-
-        HashMap<UUID, String> names = new HashMap<UUID, String>();
-        for(Player target : Bukkit.getServer().getOnlinePlayers()){
-
-
-                String format = ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatColor.translateAlternateColorCodes('&', ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " " + name + " : " + message);
-                names.put(target.getUniqueId(), format);
-
-
-
-        }
-
-
-        return names.get(player.getUniqueId());
-    }
-
-    public String nameBeforeFalse(Player player, String params, String name, String message){
-
-        HashMap<UUID, String> names = new HashMap<UUID, String>();
-        for(Player target : Bukkit.getServer().getOnlinePlayers()){
-
-
-                String format = ChatColor.translateAlternateColorCodes('&', name + " " + ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " : " + message);
-                names.put(target.getUniqueId(), format);
-            }
-
-
-
-        return names.get(player.getUniqueId());
-    }
     
 
 }

@@ -66,7 +66,7 @@ public class ChatSync implements Listener {
                 int distance = ChatPrefix.getChat().getInt("prefix." + str + ".radius");
                 Particle particule = Particle.valueOf(ChatPrefix.getChat().getString("prefix." + str + ".particles"));
 
-                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), 5);
+                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), ChatPrefix.getChat().getInt("prefix." + str + ".count"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetX"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetY"),ChatPrefix.getChat().getDouble("prefix." + str + ".offsetZ"), ChatPrefix.getChat().getDouble("prefix." + str + ".speed"));
 
 
                 if(distance != -1){
@@ -78,9 +78,17 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
-                                //Pour les logs:
-                                instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
+                                    target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+
+                                } else {
+
+                                    target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                }
 
                             } else {
 
@@ -124,9 +132,18 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
-                                //Pour les logs:
-                                instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
+                                    target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+
+                                } else {
+
+                                    target.sendMessage(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeTrue(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                }
+
 
                             } else {
 
@@ -188,7 +205,7 @@ public class ChatSync implements Listener {
                 int distance = ChatPrefix.getChat().getInt("prefix." + str + ".radius");
                 Particle particule = Particle.valueOf(ChatPrefix.getChat().getString("prefix." + str + ".particles"));
 
-                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), 5);
+                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), ChatPrefix.getChat().getInt("prefix." + str + ".count"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetX"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetY"),ChatPrefix.getChat().getDouble("prefix." + str + ".offsetZ"), ChatPrefix.getChat().getDouble("prefix." + str + ".speed"));
 
 
                 if(distance != -1){
@@ -200,10 +217,18 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
+                                if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
+                                    target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
 
-                                target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
-                                //Pour les logs:
-                                instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                } else {
+
+                                    target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                }
+
 
                             } else {
 
@@ -260,9 +285,18 @@ public class ChatSync implements Listener {
 
                             if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
-                                //Pour les logs:
-                                instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
+                                    target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+
+                                } else {
+
+                                    target.sendMessage(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                    //Pour les logs:
+                                    instance.getLogger().info(util.nameBeforeFalse(e.getPlayer(), str, e.getPlayer().getName(), rawMessage));
+                                }
+
 
                             } else {
 
@@ -287,10 +321,6 @@ public class ChatSync implements Listener {
                                     target.sendMessage(util.nameBeforeFalse(target, str, "???", rawMessage));
                                 }
                             }
-
-
-
-
 
                     }
 
@@ -320,7 +350,9 @@ public class ChatSync implements Listener {
                 //Quand la personne parle normalement
                 int distance = instance.getConfig().getInt("DEFAULT.radius");
                 String rawMessage = instance.getConfig().getString("DEFAULT.prefixChat") + e.getMessage();
+                Particle particule = Particle.valueOf(instance.getConfig().getString("DEFAULT.particles"));
 
+                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), instance.getConfig().getInt("DEFAULT.count"), instance.getConfig().getDouble("DEFAULT.offsetX"), instance.getConfig().getDouble("DEFAULT.offsetY"), instance.getConfig().getDouble("DEFAULT.offsetZ"), instance.getConfig().getDouble("DEFAULT.speed"));
 
                 for (Player target : Bukkit.getServer().getOnlinePlayers()) {
 
@@ -329,9 +361,15 @@ public class ChatSync implements Listener {
 
                                 if(target.getName().equalsIgnoreCase(e.getPlayer().getName())){
 
-                                    target.sendMessage(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                    if(joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()) != null){
+                                    target.sendMessage(util.nameDefaut(e.getPlayer(), joueurs.getPlayer(target).getString("Joueurs." + e.getPlayer().getName()), rawMessage));
                                     //Pour les logs:
                                     instance.getLogger().info(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                    } else {
+                                        target.sendMessage(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                        //Pour les logs:
+                                        instance.getLogger().info(util.nameDefaut(e.getPlayer(), e.getPlayer().getName(), rawMessage));
+                                    }
 
                                 } else {
 
@@ -363,7 +401,6 @@ public class ChatSync implements Listener {
 
                                        }
 
-
                                    }
                                 }
 
@@ -373,15 +410,10 @@ public class ChatSync implements Listener {
                                 e.getRecipients().remove(target);
 
                             }
-
                 }
-
 
             return;
 
     }
-
-
-    
 
 }

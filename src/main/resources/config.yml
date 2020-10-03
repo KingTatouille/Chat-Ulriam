@@ -6,11 +6,15 @@ DEFAULT:
   prefixChat: ""
   color: WHITE
   radius: 15
-  particles: null
-  particleVisibility: 30
+  particles: VILLAGER_HAPPY
+  count: 50
+  offsetX: 0.9
+  offsetY: 0.5
+  offsetZ: 0.9
+  speed: 0.1
 
 
 Messages:
-  welcome:  "Bienvenue sur les terres d'Ulriam !"
+  welcome: "Bienvenue sur les terres d'Ulriam !"
   join: "Un survivant vient de se réveiller."
   leave: "Un survivant vient de s'endormir."

@@ -77,6 +77,44 @@ public class Commandes implements CommandExecutor {
                 return true;
             }
 
+        if(args[0].equalsIgnoreCase("setname")){
+
+
+            if(args.length <= 2){
+
+                player.sendMessage(instance.prefix + "Syntax : /ch setname <target> <fauxNom>");
+                return true;
+            }
+
+            Player target = Bukkit.getServer().getPlayer(args[1]);
+            String fauxNom = args[2];
+
+            if(target == null){
+
+                player.sendMessage(instance.prefix + "Le nom du joueur n'est pas correcte !");
+                return true;
+            }
+
+            if(fauxNom == null){
+
+                player.sendMessage(instance.prefix + "Vous devez entrer un faux nom.");
+                return true;
+            }
+
+
+            //Si la target ne possède pas de fichier.
+            config.setup(target);
+
+            config.getPlayer(target).set("Joueurs."  + target.getName(), fauxNom);
+            config.save(target);
+            config.reload(target);
+
+            player.sendMessage(instance.prefix + "Vous venez de renommer : " + target.getName() + " par : " + fauxNom);
+
+
+            return true;
+        }
+
 
             if(args[0].equalsIgnoreCase("reload")){
 
@@ -92,6 +130,7 @@ public class Commandes implements CommandExecutor {
                 for (Player target : Bukkit.getServer().getOnlinePlayers()){
 
                     util.hideNametag(target);
+                    config.setup(target);
                     config.save(target);
                     config.reload(target);
 

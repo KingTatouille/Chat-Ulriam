@@ -45,6 +45,38 @@ public class Commandes implements CommandExecutor {
             }
 
 
+            if(player.hasPermission("chat.admin")){
+
+                if(args[0].equalsIgnoreCase("help")){
+
+
+                    player.sendMessage(instance.prefix + "====== HELP ======");
+                    player.sendMessage(instance.prefix + "/chat name <pseudo>    | Le pseudo a entrer est celui que le joueur qui est en face de vous vous a donné.");
+                    player.sendMessage(instance.prefix + " ");
+                    player.sendMessage(instance.prefix + " Commandes admin ");
+                    player.sendMessage(instance.prefix + " ");
+                    player.sendMessage(instance.prefix + "/chat real   | Regardez la personne pour voir son pseudo.");
+                    player.sendMessage(instance.prefix + "");
+                    player.sendMessage(instance.prefix + "/chat setname <Vraipseudo> <Fauxpseudo>");
+
+
+                    return true;
+                }
+
+
+            } else if(player.hasPermission("chat.help")){
+
+                if(args[0].equalsIgnoreCase("help")){
+
+
+                    player.sendMessage(instance.prefix + "====== HELP ======");
+                    player.sendMessage(instance.prefix + "/chat name <pseudo>    | Le pseudo a entrer est celui que le joueur qui est en face de vous vous a donné.");
+
+                    return true;
+                }
+
+            }
+
 
             if(args[0].equalsIgnoreCase("name")){
 
@@ -58,7 +90,7 @@ public class Commandes implements CommandExecutor {
 
                 config.setup(player);
 
-                UtilsRef.getEntityInLineOfSightBlockIterator(player, 4, name);
+                util.getEntityInLineOfSightBlockIterator(player, 4, name);
 
                 return true;
             }
@@ -72,7 +104,7 @@ public class Commandes implements CommandExecutor {
 
             if(args[0].equalsIgnoreCase("real")){
 
-                UtilsRef.commandAdmin(player, 50);
+                util.commandAdmin(player, 50);
 
                 return true;
             }

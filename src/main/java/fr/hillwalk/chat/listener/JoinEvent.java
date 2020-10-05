@@ -44,7 +44,7 @@ public class JoinEvent implements Listener {
 
 
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(PlayerQuitEvent e){
         Chat instance = JavaPlugin.getPlugin(Chat.class);
 

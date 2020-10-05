@@ -12,13 +12,13 @@ import java.io.UnsupportedEncodingException;
 
 public class ChatPrefix {
 
-    private File prefixFiles;
-    private File prefixFilesIn;
-    private FileConfiguration prefix;
-    Chat instance = JavaPlugin.getPlugin(Chat.class);
+    private static File prefixFiles;
+    private static File prefixFilesIn;
+    private static FileConfiguration prefix;
 
 
-    public void setup() {
+    public static void setup() {
+        Chat instance = JavaPlugin.getPlugin(Chat.class);
         prefixFilesIn = new File(Bukkit.getServer().getPluginManager().getPlugin(instance.getName()).getDataFolder(),"prefix");
         prefixFiles = new File(prefixFilesIn, "prefix.yml");
 
@@ -50,13 +50,14 @@ public class ChatPrefix {
     }
 
 
-    public FileConfiguration getChat() {
+    public static FileConfiguration getChat() {
 
         return prefix;
     }
 
 
-    public void save() {
+    public static void save() {
+        Chat instance = JavaPlugin.getPlugin(Chat.class);
 
         try {
             prefix.save(prefixFiles);
@@ -66,7 +67,7 @@ public class ChatPrefix {
         }
     }
 
-    public void reload() {
+    public static void reload() {
         if (prefixFiles == null) {
             prefixFiles = new File(prefixFilesIn, "prefix.yml");
         }

@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class UtilsRef {
-    ChatPrefix prefix = new ChatPrefix();
-
 
 
     /*
@@ -31,7 +29,7 @@ public class UtilsRef {
 
      */
 
-    public static void getEntityInLineOfSightBlockIterator(Player p, int range, String name){
+    public void getEntityInLineOfSightBlockIterator(Player p, int range, String name){
         Chat instance = JavaPlugin.getPlugin(Chat.class);
         Joueurs config = new Joueurs();
 
@@ -121,8 +119,9 @@ public class UtilsRef {
 
     }
 
-    public static void commandAdmin(Player p, int range){
+    public void commandAdmin(Player p, int range){
         Chat instance = JavaPlugin.getPlugin(Chat.class);
+
         Joueurs config = new Joueurs();
 
         long time = System.currentTimeMillis();
@@ -221,6 +220,7 @@ public class UtilsRef {
     public String nameDefaut(Player player, String name, String message){
         Chat instance = JavaPlugin.getPlugin(Chat.class);
 
+
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
@@ -235,6 +235,7 @@ public class UtilsRef {
     }
 
     public String nameBeforeTrue(Player player, String params, String name, String message){
+        ChatPrefix prefix = new ChatPrefix();
 
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
@@ -252,6 +253,7 @@ public class UtilsRef {
     }
 
     public String nameBeforeFalse(Player player, String params, String name, String message){
+        ChatPrefix prefix = new ChatPrefix();
 
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
@@ -285,6 +287,7 @@ public class UtilsRef {
     public String nameDefaut(Player player, String name,String spyName, String message){
         Chat instance = JavaPlugin.getPlugin(Chat.class);
 
+
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
@@ -299,6 +302,7 @@ public class UtilsRef {
     }
 
     public String nameBeforeTrue(Player player, String params, String name, String spyName, String message){
+        ChatPrefix prefix = new ChatPrefix();
 
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
@@ -316,6 +320,7 @@ public class UtilsRef {
     }
 
     public String nameBeforeFalse(Player player, String params, String name, String spyName, String message){
+        ChatPrefix prefix = new ChatPrefix();
 
         HashMap<UUID, String> names = new HashMap<UUID, String>();
         for(Player target : Bukkit.getServer().getOnlinePlayers()){

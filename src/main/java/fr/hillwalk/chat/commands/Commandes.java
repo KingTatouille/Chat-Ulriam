@@ -123,8 +123,8 @@ public class Commandes implements CommandExecutor {
                 instance.saveDefaultConfig();
                 instance.reloadConfig();
 
-                ChatPrefix.save();
-                ChatPrefix.reload();
+                prefix.save();
+                prefix.reload();
 
 
                 for (Player target : Bukkit.getServer().getOnlinePlayers()){

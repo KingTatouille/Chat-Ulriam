@@ -16,7 +16,7 @@ import org.omg.CORBA.NO_MEMORY;
 
 public class JoinEvent implements Listener {
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent e){
 
         UtilsRef util = new UtilsRef();

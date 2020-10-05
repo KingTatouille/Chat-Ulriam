@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class UtilsRef {
+    ChatPrefix prefix = new ChatPrefix();
 
 
 
@@ -239,7 +240,7 @@ public class UtilsRef {
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
 
-            String format = ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatColor.translateAlternateColorCodes('&', ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " " + name + " : " + message);
+            String format = ChatColor.valueOf(prefix.getChat().getString("prefix." + params + ".color")) + ChatColor.translateAlternateColorCodes('&', prefix.getChat().getString("prefix." + params + ".prefix") + " " + name + " : " + message);
             names.put(target.getUniqueId(), format);
 
 
@@ -256,7 +257,7 @@ public class UtilsRef {
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
 
-            String format = ChatColor.translateAlternateColorCodes('&', name + " " + ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " : " + message);
+            String format = ChatColor.translateAlternateColorCodes('&', name + " " + ChatColor.valueOf(prefix.getChat().getString("prefix." + params + ".color")) + prefix.getChat().getString("prefix." + params + ".prefix") + " : " + message);
             names.put(target.getUniqueId(), format);
         }
 
@@ -303,7 +304,7 @@ public class UtilsRef {
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
 
-            String format = ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatColor.translateAlternateColorCodes('&', ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " " + name + "(" + spyName + ")" + " : " + message);
+            String format = ChatColor.valueOf(prefix.getChat().getString("prefix." + params + ".color")) + ChatColor.translateAlternateColorCodes('&', prefix.getChat().getString("prefix." + params + ".prefix") + " " + name + "(" + spyName + ")" + " : " + message);
             names.put(target.getUniqueId(), format);
 
 
@@ -320,7 +321,7 @@ public class UtilsRef {
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
 
-            String format = ChatColor.translateAlternateColorCodes('&', name + "(" + spyName + ")" + " " + ChatColor.valueOf(ChatPrefix.getChat().getString("prefix." + params + ".color")) + ChatPrefix.getChat().getString("prefix." + params + ".prefix") + " : " + message);
+            String format = ChatColor.translateAlternateColorCodes('&', name + "(" + spyName + ")" + " " + ChatColor.valueOf(prefix.getChat().getString("prefix." + params + ".color")) + prefix.getChat().getString("prefix." + params + ".prefix") + " : " + message);
             names.put(target.getUniqueId(), format);
         }
 

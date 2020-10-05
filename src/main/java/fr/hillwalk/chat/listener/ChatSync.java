@@ -11,6 +11,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,12 +24,13 @@ public class ChatSync implements Listener {
     Chat instance = JavaPlugin.getPlugin(Chat.class);
     Joueurs joueurs = new Joueurs();
     UtilsRef util = new UtilsRef();
+    ChatPrefix config = new ChatPrefix();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void chatSync(AsyncPlayerChatEvent e){
 
 
-    for(String str : ChatPrefix.getChat().getConfigurationSection("prefix").getKeys(false)){
+    for(String str : config.getChat().getConfigurationSection("prefix").getKeys(false)){
 
         e.setCancelled(true);
 
@@ -45,10 +47,10 @@ public class ChatSync implements Listener {
 
          */
 
-        if(e.getMessage().startsWith(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"))){
+        if(e.getMessage().startsWith(config.getChat().getString("prefix." + str + ".prefixChat"))){
 
 
-            if(ChatPrefix.getChat().getBoolean("prefix." + str + ".before")){
+            if(config.getChat().getBoolean("prefix." + str + ".before")){
 
                 /*
 
@@ -61,12 +63,12 @@ public class ChatSync implements Listener {
 
                  */
 
-                String word = ChatPrefix.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
-                String rawMessage = word.replace(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"), "");
-                int distance = ChatPrefix.getChat().getInt("prefix." + str + ".radius");
-                Particle particule = Particle.valueOf(ChatPrefix.getChat().getString("prefix." + str + ".particles"));
+                String word = config.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
+                String rawMessage = word.replace(config.getChat().getString("prefix." + str + ".prefixChat"), "");
+                int distance = config.getChat().getInt("prefix." + str + ".radius");
+                Particle particule = Particle.valueOf(config.getChat().getString("prefix." + str + ".particles"));
 
-                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), ChatPrefix.getChat().getInt("prefix." + str + ".count"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetX"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetY"),ChatPrefix.getChat().getDouble("prefix." + str + ".offsetZ"), ChatPrefix.getChat().getDouble("prefix." + str + ".speed"));
+                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), config.getChat().getInt("prefix." + str + ".count"), config.getChat().getDouble("prefix." + str + ".offsetX"), config.getChat().getDouble("prefix." + str + ".offsetY"),config.getChat().getDouble("prefix." + str + ".offsetZ"), config.getChat().getDouble("prefix." + str + ".speed"));
 
 
                 if(distance != -1){
@@ -200,12 +202,12 @@ public class ChatSync implements Listener {
                  */
 
 
-                String word = ChatPrefix.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
-                String rawMessage = word.replace(ChatPrefix.getChat().getString("prefix." + str + ".prefixChat"), "");
-                int distance = ChatPrefix.getChat().getInt("prefix." + str + ".radius");
-                Particle particule = Particle.valueOf(ChatPrefix.getChat().getString("prefix." + str + ".particles"));
+                String word = config.getChat().getString("prefix." + str + ".prefixChat") + e.getMessage();
+                String rawMessage = word.replace(config.getChat().getString("prefix." + str + ".prefixChat"), "");
+                int distance = config.getChat().getInt("prefix." + str + ".radius");
+                Particle particule = Particle.valueOf(config.getChat().getString("prefix." + str + ".particles"));
 
-                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), ChatPrefix.getChat().getInt("prefix." + str + ".count"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetX"), ChatPrefix.getChat().getDouble("prefix." + str + ".offsetY"),ChatPrefix.getChat().getDouble("prefix." + str + ".offsetZ"), ChatPrefix.getChat().getDouble("prefix." + str + ".speed"));
+                e.getPlayer().getWorld().spawnParticle(particule, new Location(e.getPlayer().getWorld(), e.getPlayer().getLocation().getX(),e.getPlayer().getLocation().getY() + 2, e.getPlayer().getLocation().getZ()), config.getChat().getInt("prefix." + str + ".count"), config.getChat().getDouble("prefix." + str + ".offsetX"), config.getChat().getDouble("prefix." + str + ".offsetY"),config.getChat().getDouble("prefix." + str + ".offsetZ"), config.getChat().getDouble("prefix." + str + ".speed"));
 
 
                 if(distance != -1){
